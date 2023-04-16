@@ -12,8 +12,8 @@ function Rotas() {
   return (
     <Box>
         <Router>
-        <Login/>
             <Routes>
+              <Route path="/" element={<Login/>}></Route>
               <Route path="/cadastro" element={<Cadastro/>} />
             </Routes>
         </Router>

@@ -1,14 +1,21 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Logo from '../../images/Logo.png'
+import logo from '../../images/Logo.png'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-export default function Cadastro() {
+const Cadastro = () => {
+  const [alignment, setAlignment] = React.useState('adm');
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  }
+  
 
   return (
       <Container component="main" maxWidth="xs">
@@ -17,18 +24,36 @@ export default function Cadastro() {
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems:'center'
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <Logo></Logo>
-          </Avatar>
+            <img src={logo} alt='imagem'></img>
           <Typography component="h1" variant="h5">
-            Cadastrar-se
+            Cadastrar usuário
           </Typography>
           <Box component="form" sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="cpf"
+                  name="cpf"
+                  fullWidth
+                  id="cpf"
+                  label="CPF"
+                  disabled={alignment === 'client' ? true : false}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="cnpj"
+                  name="cnpj"
+                  fullWidth
+                  id="cnpj"
+                  label="CNPJ"
+                  disabled={alignment === 'adm' || alignment === 'driver' ? true : false}
+                />
+              </Grid>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
                   name="nome"
@@ -36,6 +61,7 @@ export default function Cadastro() {
                   id="nome"
                   label="Nome"
                 />
+                
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -47,7 +73,7 @@ export default function Cadastro() {
                   autoComplete="email"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={9}>
                 <TextField
                   required
                   fullWidth
@@ -57,6 +83,19 @@ export default function Cadastro() {
                   id="senha"
                   autoComplete="new-password"
                 />
+              </Grid>
+              <Grid item>
+              <ToggleButtonGroup
+                color="primary"
+                value={alignment}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+              >
+                <ToggleButton value="adm">Administrador</ToggleButton>
+                <ToggleButton value="driver">Motorista</ToggleButton>
+                <ToggleButton value="client">Cliente</ToggleButton>
+              </ToggleButtonGroup>
               </Grid>
             </Grid>
             <Button
@@ -71,3 +110,5 @@ export default function Cadastro() {
       </Container>
   );
 }
+
+export default Cadastro
