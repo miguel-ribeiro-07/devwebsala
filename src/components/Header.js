@@ -2,28 +2,80 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import logo from '../images/Logo.png'
 import { Link, useLocation } from 'react-router-dom';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import RoundaboutRightIcon from '@mui/icons-material/RoundaboutRight';
 
 export default function Header() {
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const location = useLocation()
 
+  const [state, setState] = React.useState(false);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState(open);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+  const list = () => (
+    <Box
+      role="presentation"
+      onClick={toggleDrawer( false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+      <Link to="/cadastro" style={{textDecoration:"none"}}>
+      <ListItem >
+        <ListItemButton>
+          <ListItemIcon>
+            <PersonAddIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Cadastrar usuário" />
+        </ListItemButton>
+      </ListItem>
+      </Link>
+      <ListItem >
+        <ListItemButton>
+          <ListItemIcon>
+            <LocalShippingIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Cadastrar caminhão" />
+        </ListItemButton>
+      </ListItem>
+      <ListItem >
+        <ListItemButton>
+          <ListItemIcon>
+            <InventoryIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Cadastrar carga" />
+        </ListItemButton>
+      </ListItem>
+      <ListItem >
+        <ListItemButton>
+          <ListItemIcon>
+            <RoundaboutRightIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Rotas" />
+        </ListItemButton>
+      </ListItem>
+      </List>
+    </Box>
+  );
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={location.pathname === '/' ? 'display:none':'display:block'}position='static' >
@@ -34,34 +86,23 @@ export default function Header() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
           <img src={logo} width='120px' height='60px'/>
-          {auth && (
-            <div>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </div>
-          )}
         </Toolbar>
-      </AppBar>
+      </AppBar>  
+        <>
+          <Drawer
+            anchor='left'
+            open={state}
+            onClose={toggleDrawer(false)}
+          >
+            {list()}
+          </Drawer>
+        </>
     </Box>
+    
   );
 }
