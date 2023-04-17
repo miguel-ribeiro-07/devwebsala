@@ -27,7 +27,7 @@ const Cadastro = () => {
             alignItems:'center'
           }}
         >
-            <img src={logo} alt='imagem'></img>
+            <img src={logo} alt='logo'></img>
           <Typography component="h1" variant="h5">
             Cadastrar usuário
           </Typography>

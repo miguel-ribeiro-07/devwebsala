@@ -9,6 +9,7 @@ import logo from '../../images/Logo.png'
 import Typography from '@mui/material/Typography';
 
 
+
 export default function Login() {
 
   return (
@@ -20,7 +21,7 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://mirindosul.com.br/wp-content/uploads/2020/03/mirin_descubra-as-principais-taxas-inclusas-no-valor-do-frete-da-transportadora.png)',
+            backgroundImage: 'url(https://blogwlmscania.itaipumg.com.br/wp-content/uploads/2018/02/tipos-de-caminhao.jpg)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -38,7 +39,7 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
-            <img src={logo} sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <img src={logo} alt='logo' sx={{ m: 1, bgcolor: 'secondary.main' }}>
             </img>
             <Typography component="h1" variant="h5">
               Login
