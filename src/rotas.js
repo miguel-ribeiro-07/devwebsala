@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
 import Inicio from "./pages/Inicio";
 import Header from "./components/Header";
+import Carga from "./pages/Cargas";
 
 function Rotas() {
   return (
@@ -17,8 +18,9 @@ function Rotas() {
           <Header/>
             <Routes>
               <Route path="/" element={<Login/>}></Route>
-              <Route path="/cadastro" element={<Cadastro/>} />
-              <Route path="/inicio" element={<Inicio/>} />
+              <Route path="/cadastro" element={<Cadastro/>}/>
+              <Route path="/inicio" element={<Inicio/>}/>
+              <Route path="/carga" element={<Carga/>}/>
             </Routes>
         </Router>
     </Box>

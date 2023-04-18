@@ -38,7 +38,7 @@ export default function Header() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-      <Link to="/cadastro" style={{textDecoration:"none"}}>
+      <Link to="/cadastro" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem >
         <ListItemButton>
           <ListItemIcon>
@@ -64,6 +64,7 @@ export default function Header() {
             <ListItemText primary="Cadastrar carga" />
         </ListItemButton>
       </ListItem>
+      <Link to="/carga" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem >
         <ListItemButton>
           <ListItemIcon>
@@ -72,6 +73,7 @@ export default function Header() {
             <ListItemText primary="Rotas" />
         </ListItemButton>
       </ListItem>
+      </Link>
       </List>
     </Box>
   );
