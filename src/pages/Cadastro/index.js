@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import logo from '../../images/Logo.png'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -27,7 +26,6 @@ const Cadastro = () => {
             alignItems:'center'
           }}
         >
-            <img src={logo} alt='logo'></img>
           <Typography component="h1" variant="h5">
             Cadastrar usuário
           </Typography>
