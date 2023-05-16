@@ -30,7 +30,9 @@ const carga = new Schema({
     },
     status:{
         type:String,
-        require: [true, 'O status é obrigatório']
+        enum:['R', 'T', 'E'],// Status de excluído "E" para a não remoção do db
+        require:true,
+        default: "R"
     },
 });
 

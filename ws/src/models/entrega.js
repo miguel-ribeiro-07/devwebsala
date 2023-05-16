@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
-const carga = new Schema({
-    cargaId:{
+const entrega = new Schema({
+    cargaId:[{
         type:mongoose.Types.ObjectId,
         ref:'Carga',
         require: [true, 'O ID de carga é obrigatório']
-    },
+    }],
     caminhaoId:{
         type:mongoose.Types.ObjectId,
         ref:'Caminhao',
@@ -24,4 +24,4 @@ const carga = new Schema({
 });
 
 
-module.exports = mongoose.model('Carga', carga)
+module.exports = mongoose.model('Entrega', entrega)
