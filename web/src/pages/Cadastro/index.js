@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -7,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { ReceiptRounded } from '@mui/icons-material';
+import api from '../../services/api';
+
 
 const Cadastro = () => {
   const [alignment, setAlignment] = React.useState('adm');
@@ -15,19 +17,42 @@ const Cadastro = () => {
   const [helpCPF, setHelpCPF] = React.useState("")
   const [errorCNPJ, setErrorCNPJ] = React.useState(false)
   const [helpCNPJ, setHelpCNPJ] = React.useState("")
-
-  let [CPF, setCPF] = React.useState("")
-  let [CNPJ, setCNPJ] = React.useState("")
+  let [usuario, setUsuario] = React.useState({
+    tipoUser: '',
+    cpf: '',
+    cnpj: '',
+    nome: '',
+    email:'',
+    senha:''
+  })
   
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
-    setCPF('')
-    setCNPJ('')
+    setUsuario({...usuario, cpf:''})
+    setUsuario({...usuario, cnpj:''})
     setErrorCPF(false)
     setErrorCNPJ(false)
     setHelpCNPJ('')
     setHelpCPF('')
   }
+
+  async function cadastrar(){
+    try {
+      const response = await api.post('/usuario', { ...usuario });
+      const res = response.data;
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  useEffect(()=>{
+    setUsuario({...usuario, tipoUser:alignment})
+  }, [alignment])
 
   function validarCPF(strCPF) {
     let Soma;
@@ -48,7 +73,7 @@ const Cadastro = () => {
     if ((Resto == 10) || (Resto == 11))  Resto = 0;
     if (Resto != parseInt(strCPF.substring(10, 11) ) ) return (setErrorCPF(true), setHelpCPF("Digite um CPF válido"))
   
-    return (setErrorCPF(false), setHelpCPF(""), alert("CPF correto!")) ;
+    return (setErrorCPF(false), setHelpCPF(""), cadastrar()) ;
   }
   
   function validarCNPJ(cnpj) {
@@ -101,9 +126,10 @@ const Cadastro = () => {
     if (resultado != digitos.charAt(1))
       return (setErrorCNPJ(true), setHelpCNPJ("Digite um CNPJ válido"));
            
-    return (setErrorCNPJ(false), setHelpCNPJ(""), alert("CPF correto!"));
+    return (setErrorCNPJ(false), setHelpCNPJ(""), cadastrar());
     
 }
+
   return (
       <Container component="main" maxWidth="xs">
         <Box
@@ -140,9 +166,9 @@ const Cadastro = () => {
                   fullWidth
                   id="cpf"
                   label="CPF"
-                  value={CPF}
+                  value={usuario.cpf}
                   disabled={alignment === 'client' ? true : false}
-                  onChange={(e) => {setCPF(e.target.value)}}
+                  onChange={(e) => {setUsuario({...usuario, cpf:e.target.value})}}
                   helperText={helpCPF}
                 />
               </Grid>
@@ -154,9 +180,9 @@ const Cadastro = () => {
                   fullWidth
                   id="cnpj"
                   label="CNPJ"
-                  value={CNPJ}
+                  value={usuario.cnpj}
                   disabled={alignment === 'adm' || alignment === 'driver' ? true : false}
-                  onChange={(e) => {setCNPJ(e.target.value)}}
+                  onChange={(e) => {setUsuario({...usuario, cnpj:e.target.value})}}
                   helperText={helpCNPJ}
                 />
               </Grid>
@@ -167,6 +193,8 @@ const Cadastro = () => {
                   fullWidth
                   id="nome"
                   label="Nome"
+                  value={usuario.nome}
+                  onChange={(e) => {setUsuario({...usuario, nome:e.target.value})}}
                 />
                 
               </Grid>
@@ -176,8 +204,10 @@ const Cadastro = () => {
                   fullWidth
                   id="email"
                   label="E-mail"
+                  value={usuario.email}
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => {setUsuario({...usuario, email:e.target.value})}}
                 />
               </Grid>
               <Grid item xs={9}>
@@ -186,9 +216,11 @@ const Cadastro = () => {
                   fullWidth
                   name="senha"
                   label="Senha"
-                  type="senha"
+                  value={usuario.senha}
+                  type="password"
                   id="senha"
                   autoComplete="new-password"
+                  onChange={(e) => {setUsuario({...usuario, senha:e.target.value})}}
                 />
               </Grid>
             </Grid>
@@ -197,9 +229,9 @@ const Cadastro = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               onClick={() => {
-                if(CPF !== '') validarCPF(CPF)
-                else if (CNPJ !== '') validarCNPJ(CNPJ) 
-                else if (CPF === '' && CNPJ === '') alert('Preencha o CPF ou CNPJ')
+                if(usuario.cpf !== '') validarCPF(usuario.cpf)
+                else if (usuario.cnpj !== '') validarCNPJ(usuario.cnpj) 
+                else if (usuario.cpf === '' && usuario.cnpj === '') alert('Preencha o CPF ou CNPJ')
             }}
             >
               Cadastrar

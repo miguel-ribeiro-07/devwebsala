@@ -7,10 +7,34 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import logo from '../../images/Logo.png'
 import Typography from '@mui/material/Typography';
+import api from '../../services/api'
+import {useNavigate} from 'react-router-dom'
 
 
 
 export default function Login() {
+  const navigate = useNavigate()
+  let [userLogin, setUserLogin] = React.useState({
+    email:'',
+    senha:''
+  })
+
+  async function validarLogin(){
+    try {
+      const response = await api.post('/usuario/filter', { ...userLogin });
+      const res = response.data;
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
+      const usuario = res.usuario
+
+      if (userLogin.email == usuario[0].email && userLogin.senha == usuario[0].senha) navigate(`/inicio/${usuario[0]._id}`)
+    } catch (err) {
+      alert('Login incorreto!');
+    }
+  }
 
   return (
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -51,8 +75,10 @@ export default function Login() {
                 fullWidth
                 id="email"
                 label="E-mail"
+                value={userLogin.email}
                 name="email"
                 autoComplete="email"
+                onChange={(e) => setUserLogin({...userLogin, email:e.target.value})}
                 autoFocus
               />
               <TextField
@@ -61,12 +87,15 @@ export default function Login() {
                 fullWidth
                 name="senha"
                 label="Senha"
-                type="senha"
+                value={userLogin.senha}
+                type="password"
+                onChange={(e) => setUserLogin({...userLogin, senha:e.target.value})}
                 id="senha"
               />
               <Button
                 fullWidth
                 variant="contained"
+                onClick={ async () => validarLogin()}
                 sx={{ mt: 3, mb: 2 }}
               >
                 Fazer Login

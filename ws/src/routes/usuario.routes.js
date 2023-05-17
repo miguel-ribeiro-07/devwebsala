@@ -51,7 +51,7 @@ router.delete('/:id', async(req, res) =>{
 router.post('/filter', async(req, res) =>{
     try{
         const usuario = await Usuario.find(req.body)
-        res.json({error:false, usuario})
+        res.json({usuario})
     }catch(err){
         res.json({error:true, message:err.message})
     }
