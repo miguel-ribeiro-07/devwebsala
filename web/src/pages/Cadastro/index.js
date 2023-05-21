@@ -12,7 +12,7 @@ import api from '../../services/api';
 
 
 const Cadastro = () => {
-  const [alignment, setAlignment] = React.useState('adm');
+  const [alignment, setAlignment] = React.useState('Administrador');
   const [errorCPF, setErrorCPF] = React.useState(false)
   const [helpCPF, setHelpCPF] = React.useState("")
   const [errorCNPJ, setErrorCNPJ] = React.useState(false)
@@ -25,11 +25,11 @@ const Cadastro = () => {
     email:'',
     senha:''
   })
+
+  console.log(usuario)
   
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
-    setUsuario({...usuario, cpf:''})
-    setUsuario({...usuario, cnpj:''})
     setErrorCPF(false)
     setErrorCNPJ(false)
     setHelpCNPJ('')
@@ -51,10 +51,16 @@ const Cadastro = () => {
   }
 
   useEffect(()=>{
-    setUsuario({...usuario, tipoUser:alignment})
+    setUsuario({...usuario, 
+      tipoUser:alignment,
+      cnpj: '',
+      cpf: ''
+    })
   }, [alignment])
 
   function validarCPF(strCPF) {
+    if(strCPF === '') return (setErrorCPF(true), setHelpCPF("Digite um CPF válido"))
+
     let Soma;
     let Resto;
     Soma = 0;
@@ -73,13 +79,13 @@ const Cadastro = () => {
     if ((Resto == 10) || (Resto == 11))  Resto = 0;
     if (Resto != parseInt(strCPF.substring(10, 11) ) ) return (setErrorCPF(true), setHelpCPF("Digite um CPF válido"))
   
-    return (setErrorCPF(false), setHelpCPF(""), cadastrar()) ;
+    return (setErrorCPF(false), setHelpCPF(""), cadastrar(), alert('Cadastrado com sucesso!')) ;
   }
   
   function validarCNPJ(cnpj) {
+    if(cnpj === '') return (setErrorCNPJ(true), setHelpCNPJ("Digite um CNPJ válido")) ;
     cnpj = cnpj.replace(/[^\d]+/g,'');
  
-    if(cnpj === '') return (setErrorCNPJ(true), setHelpCNPJ("Digite um CNPJ válido")) ;
      
     if (cnpj.length != 14)
       return (setErrorCNPJ(true), setHelpCNPJ("Digite um CNPJ válido"));
@@ -126,7 +132,7 @@ const Cadastro = () => {
     if (resultado != digitos.charAt(1))
       return (setErrorCNPJ(true), setHelpCNPJ("Digite um CNPJ válido"));
            
-    return (setErrorCNPJ(false), setHelpCNPJ(""), cadastrar());
+    return (setErrorCNPJ(false), setHelpCNPJ(""), cadastrar(), alert('Cadastrado com sucesso!'));
     
 }
 
@@ -153,9 +159,9 @@ const Cadastro = () => {
                 onChange={handleChange}
                 aria-label="Platform"
               >
-                <ToggleButton value="adm">Administrador</ToggleButton>
-                <ToggleButton value="driver">Motorista</ToggleButton>
-                <ToggleButton value="client">Cliente</ToggleButton>
+                <ToggleButton value="Administrador">Administrador</ToggleButton>
+                <ToggleButton value="Motorista">Motorista</ToggleButton>
+                <ToggleButton value="Cliente">Cliente</ToggleButton>
               </ToggleButtonGroup>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -167,7 +173,7 @@ const Cadastro = () => {
                   id="cpf"
                   label="CPF"
                   value={usuario.cpf}
-                  disabled={alignment === 'client' ? true : false}
+                  disabled={alignment === 'Cliente' ? true : false}
                   onChange={(e) => {setUsuario({...usuario, cpf:e.target.value})}}
                   helperText={helpCPF}
                 />
@@ -181,7 +187,7 @@ const Cadastro = () => {
                   id="cnpj"
                   label="CNPJ"
                   value={usuario.cnpj}
-                  disabled={alignment === 'adm' || alignment === 'driver' ? true : false}
+                  disabled={alignment === 'Administrador' || alignment === 'Motorista' ? true : false}
                   onChange={(e) => {setUsuario({...usuario, cnpj:e.target.value})}}
                   helperText={helpCNPJ}
                 />

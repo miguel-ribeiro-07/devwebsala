@@ -29,8 +29,9 @@ export default function Login() {
         return false;
       }
       const usuario = res.usuario
-
-      if (userLogin.email == usuario[0].email && userLogin.senha == usuario[0].senha) navigate(`/inicio/${usuario[0]._id}`)
+      localStorage.setItem('sessionId', usuario[0]._id)
+      localStorage.setItem('userType', usuario[0].tipoUser)
+      if (userLogin.email == usuario[0].email && userLogin.senha == usuario[0].senha) navigate(`/inicio/`)
     } catch (err) {
       alert('Login incorreto!');
     }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,17 +13,22 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import LogoutIcon from '@mui/icons-material/Logout';
 import ListItemText from '@mui/material/ListItemText';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import RoundaboutRightIcon from '@mui/icons-material/RoundaboutRight';
+import api from '../services/api';
+import {useNavigate} from 'react-router-dom'
 
 export default function Header() {
   const location = useLocation()
-
+  const navigate = useNavigate()
   const [state, setState] = React.useState(false);
-
+  const sessionId = localStorage.getItem('sessionId')
+  const userType = localStorage.getItem('userType')
+  
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -34,12 +40,12 @@ export default function Header() {
   const list = () => (
     <Box
       role="presentation"
-      onClick={toggleDrawer( false)}
+      onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
       <List>
       <Link to="/cadastro" style={{textDecoration:"none", color:'#000000'}}>
-      <ListItem >
+      <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
             <PersonAddIcon/>
@@ -48,7 +54,7 @@ export default function Header() {
         </ListItemButton>
       </ListItem>
       </Link>
-      <ListItem >
+      <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
             <LocalShippingIcon/>
@@ -56,7 +62,7 @@ export default function Header() {
             <ListItemText primary="Cadastrar caminhão" />
         </ListItemButton>
       </ListItem>
-      <ListItem >
+      <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
             <InventoryIcon/>
@@ -64,13 +70,37 @@ export default function Header() {
             <ListItemText primary="Cadastrar carga" />
         </ListItemButton>
       </ListItem>
-      <Link to="/carga" style={{textDecoration:"none", color:'#000000'}}>
-      <ListItem >
+      <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
             <RoundaboutRightIcon/>
           </ListItemIcon>
-            <ListItemText primary="Rotas" />
+            <ListItemText primary="Cadastrar rota" />
+        </ListItemButton>
+      </ListItem>
+      <ListItem sx={{display: userType === 'Motorista' ? 'block' : 'none' }}>
+        <ListItemButton>
+          <ListItemIcon>
+            <RoundaboutRightIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Informações da carga"/>
+        </ListItemButton>
+      </ListItem>
+      <ListItem sx={{display: userType === 'Motorista' ? 'block' : 'none' }}>
+        <ListItemButton>
+          <ListItemIcon>
+            <RoundaboutRightIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Atualizar local atual da carga"/>
+        </ListItemButton>
+      </ListItem>
+      <Link to="/carga" style={{textDecoration:"none", color:'#000000'}}>
+      <ListItem sx={{display: userType === 'Cliente' ? 'block' : 'none' }}>
+        <ListItemButton>
+          <ListItemIcon>
+            <RoundaboutRightIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Andamento entrega"/>
         </ListItemButton>
       </ListItem>
       </Link>
@@ -80,19 +110,30 @@ export default function Header() {
   
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={location.pathname === '/' ? 'display:none':'display:block'}position='static' >
+      <AppBar sx={location.pathname === '/' ? 'display:none':'display:block'} position='static' >
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{mr: 2 }}
             onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
-          <img src={logo} width='120px' height='60px'/>
+          <img onClick={() => navigate('/inicio')} src={logo} width='120px' height='60px'/>
+          <Box flexGrow={1} />
+          <IconButton
+            size="large"
+            aria-label="logout"
+            onClick={() => {
+              localStorage.removeItem('sessionId')
+              localStorage.removeItem('userType')
+              navigate('/')}}
+            >
+              <LogoutIcon/>
+          </IconButton>
         </Toolbar>
       </AppBar>  
         <>

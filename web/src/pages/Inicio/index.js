@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -10,8 +11,38 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import { useParams } from 'react-router-dom'
+import api from '../../services/api';
+import {useNavigate} from 'react-router-dom'
 
 export default function Inicio() {
+
+  const idSession = localStorage.getItem('sessionId')
+  let [dadosPerfil, setDadosPerfil] = React.useState({})
+  const navigate = useNavigate()
+
+  useEffect(() =>{
+    if (idSession === null) {navigate('/')}
+    else getUser()
+  }, [])
+
+  async function getUser(){
+    try {
+      const response = await api.get(`/usuario/${idSession}`);
+      const res = response.data;
+      setDadosPerfil(res.usuario)
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
+
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+
   return (
     <div>
     <Typography variant="h2">
@@ -30,16 +61,25 @@ export default function Inicio() {
             <AccountCircleIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Tipo Perfil" secondary="Administrador" />
+        <ListItemText primary="Tipo Perfil" secondary={dadosPerfil.tipoUser}/>
       </ListItem>
       <Divider variant="inset" component="li" />
-      <ListItem>
+      <ListItem sx={{display: dadosPerfil.tipoUser === 'Motorista' || dadosPerfil.tipoUser === 'Administrador' ? 'flex' : 'none' }}>
         <ListItemAvatar>
           <Avatar>
             <FingerprintIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="CPF" secondary="000.000.000-00" />
+        <ListItemText primary="CPF" secondary={dadosPerfil.cpf} />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem sx={{display: dadosPerfil.tipoUser === 'Cliente' ? 'flex' : 'none' }}>
+        <ListItemAvatar>
+          <Avatar>
+            <FingerprintIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary="CNPJ" secondary={dadosPerfil.cnpj} />
       </ListItem>
       <Divider variant="inset" component="li" />
       <ListItem>
@@ -48,7 +88,7 @@ export default function Inicio() {
             <PersonIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Nome" secondary="João da Siva" />
+        <ListItemText primary="Nome" secondary={dadosPerfil.nome} />
       </ListItem>
       <Divider variant="inset" component="li" />
       <ListItem>
@@ -57,7 +97,7 @@ export default function Inicio() {
             <EmailIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="E-mail" secondary="joaozinhodasilva@gmail.com" />
+        <ListItemText primary="E-mail" secondary={dadosPerfil.email} />
       </ListItem>
     </List>
     </div>

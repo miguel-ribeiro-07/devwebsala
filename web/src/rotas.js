@@ -19,7 +19,7 @@ function Rotas() {
             <Routes>
               <Route path="/" element={<Login/>}></Route>
               <Route path="/cadastro" element={<Cadastro/>}/>
-              <Route path="/inicio:id" element={<Inicio/>}/>
+              <Route path="/inicio/" element={<Inicio/>}/>
               <Route path="/carga" element={<Carga/>}/>
             </Routes>
         </Router>
