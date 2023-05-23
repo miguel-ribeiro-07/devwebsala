@@ -11,7 +11,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { useParams } from 'react-router-dom'
 import api from '../../services/api';
 import {useNavigate} from 'react-router-dom'
 

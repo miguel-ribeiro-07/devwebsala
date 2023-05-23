@@ -44,7 +44,7 @@ export default function Header() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-      <Link to="/cadastro" style={{textDecoration:"none", color:'#000000'}}>
+      <Link to="/cadastro-cliente" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
@@ -54,6 +54,7 @@ export default function Header() {
         </ListItemButton>
       </ListItem>
       </Link>
+      <Link to="/cadastro-caminhao" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
@@ -62,6 +63,7 @@ export default function Header() {
             <ListItemText primary="Cadastrar caminhão" />
         </ListItemButton>
       </ListItem>
+      </Link>
       <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>

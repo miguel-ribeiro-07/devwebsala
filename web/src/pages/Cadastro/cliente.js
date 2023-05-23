@@ -11,7 +11,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import api from '../../services/api';
 
 
-const Cadastro = () => {
+const CadastroCliente = () => {
   const [alignment, setAlignment] = React.useState('Administrador');
   const [errorCPF, setErrorCPF] = React.useState(false)
   const [helpCPF, setHelpCPF] = React.useState("")
@@ -26,8 +26,6 @@ const Cadastro = () => {
     senha:''
   })
 
-  console.log(usuario)
-  
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
     setErrorCPF(false)
@@ -167,6 +165,7 @@ const Cadastro = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   error={errorCPF}
+                  required
                   autoComplete="cpf"
                   name="cpf"
                   fullWidth
@@ -181,6 +180,7 @@ const Cadastro = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   error={errorCNPJ}
+                  required
                   autoComplete="cnpj"
                   name="cnpj"
                   fullWidth
@@ -195,6 +195,7 @@ const Cadastro = () => {
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
+                  required
                   name="nome"
                   fullWidth
                   id="nome"
@@ -248,4 +249,4 @@ const Cadastro = () => {
   );
 }
 
-export default Cadastro
+export default CadastroCliente
