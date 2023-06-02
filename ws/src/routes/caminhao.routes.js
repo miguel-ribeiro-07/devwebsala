@@ -48,4 +48,13 @@ router.delete('/:id', async(req, res) =>{
     }
 })
 
+router.post('/filter', async(req, res) =>{
+    try{
+        const caminhao = await Caminhao.find(req.body)
+        res.json({caminhao})
+    }catch(err){
+        res.json({error:true, message:err.message})
+    }
+})
+
 module.exports = router

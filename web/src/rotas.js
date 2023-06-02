@@ -8,9 +8,9 @@ import Box from '@mui/material/Box';
 import Login from "./pages/Login";
 import CadastroCliente from "./pages/Cadastro/cliente";
 import CadastroCaminhao from "./pages/Cadastro/caminhao";
+import CadastroCarga from "./pages/Cadastro/carga";
 import Inicio from "./pages/Inicio";
 import Header from "./components/Header";
-import Carga from "./pages/Cargas";
 
 function Rotas() {
   return (
@@ -21,8 +21,8 @@ function Rotas() {
               <Route path="/" element={<Login/>}></Route>
               <Route path="/cadastro-cliente" element={<CadastroCliente/>}/>
               <Route path="/cadastro-caminhao" element={<CadastroCaminhao/>}/>
+              <Route path="/cadastro-carga" element={<CadastroCarga/>}/>
               <Route path="/inicio/" element={<Inicio/>}/>
-              <Route path="/carga" element={<Carga/>}/>
             </Routes>
         </Router>
     </Box>

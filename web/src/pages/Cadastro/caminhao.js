@@ -33,11 +33,6 @@ const CadastroCaminhao = () => {
     }
   }
 
-  useEffect(()=>{
-
-  },[])
-
-
   return (
       <Container component="main" maxWidth="xs">
         <Box

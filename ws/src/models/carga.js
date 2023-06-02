@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const carga = new Schema({
+    nomeCarga:{
+        type:String,
+        require: [true, 'O nome da carga é obrigatório']
+    },
     usuarioId:{
         type:mongoose.Types.ObjectId,
         ref:'Usuario',
@@ -27,13 +31,7 @@ const carga = new Schema({
     destino:{
         type:String,
         require: [true, 'O destino é obrigatório']
-    },
-    status:{
-        type:String,
-        enum:['R', 'T', 'E'],// Status de excluído "E" para a não remoção do db
-        require:true,
-        default: "R"
-    },
+    }
 });
 
 

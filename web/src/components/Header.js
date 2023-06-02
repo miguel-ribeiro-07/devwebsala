@@ -64,6 +64,7 @@ export default function Header() {
         </ListItemButton>
       </ListItem>
       </Link>
+      <Link to="/cadastro-carga" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
@@ -72,6 +73,7 @@ export default function Header() {
             <ListItemText primary="Cadastrar carga" />
         </ListItemButton>
       </ListItem>
+      </Link>
       <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>

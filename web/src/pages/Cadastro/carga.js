@@ -7,19 +7,28 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import api from '../../services/api';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 
-const CadastroCaminhao = () => {
-  let [caminhao, setCaminhao] = React.useState({
-    nomeCaminhao: '',
-    modelo:'',
-    placa:'',
-    fabricacao:''
+const CadastroCarga = () => {
+  let [carga, setCarga] = React.useState({
+    nomeCarga: '',
+    nomeCliente:'',
+    tipoCarga:'',
+    peso:null,
+    altura:null,
+    largura:null,
+    origem:'',
+    destino:''
   })
+  let [clientes, setClientes] = React.useState([])
 
   async function cadastrar(){
     try {
-      const response = await api.post('/caminhao', { ...caminhao });
+      const response = await api.post('/carga', { ...carga });
       const res = response.data;
   
       if (res.error) {
@@ -33,8 +42,28 @@ const CadastroCaminhao = () => {
     }
   }
 
-  useEffect(()=>{
+  async function allClientes(){
+    try {
+      const response = await api.post('/usuario/filter', {
+        tipoUser:'Cliente'
+      });
+      const res = response.data;
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
 
+      setClientes(res.map(e => e.cnpj))
+  
+
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  useEffect(() =>{
+    allClientes()
   },[])
 
 
@@ -49,57 +78,114 @@ const CadastroCaminhao = () => {
           }}
         >
           <Typography component="h1" variant="h5">
-            Cadastrar caminhão
+            Cadastrar carga
           </Typography>
           <Box component="form" sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+            <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
                   required
-                  name="nome"
                   fullWidth
                   id="nome"
-                  label="Nome do caminhão"
-                  value={caminhao.nomeCaminhao}
-                  onChange={(e) => {setCaminhao({...caminhao, nomeCaminhao:e.target.value})}}
+                  label="Nome Carga"
+                  value={carga.nomeCarga}
+                  name="nome"
+                  autoComplete="nome"
+                  onChange={(e) => {setCarga({...carga, nomeCarga:e.target.value})}}
                 />
-                
+              </Grid>
+              <Grid item xs={12}>
+              <InputLabel id="demo-multiple-name-label">CNPJ pertecente</InputLabel>
+                <Select
+                  labelId="demo-multiple-name-label"
+                  id="demo-multiple-name"
+                  value={carga.nomeCliente}
+                  onChange={(e) => {setCarga({...carga, nomeCliente:e.target.value})}}
+                  input={<OutlinedInput label="Name" />}
+                >
+                  {clientes.map((cliente) => (
+                    <MenuItem
+                      key={cliente}
+                      value={cliente}
+                    >
+                      {cliente}
+                    </MenuItem>
+                  ))}
+                </Select>
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   required
                   fullWidth
-                  id="modelo"
-                  label="Modelo"
-                  value={caminhao.modelo}
-                  name="modelo"
-                  autoComplete="modelo"
-                  onChange={(e) => {setCaminhao({...caminhao, modelo:e.target.value})}}
+                  id="tipo"
+                  label="Tipo"
+                  value={carga.tipoCarga}
+                  name="tipo"
+                  autoComplete="tipo"
+                  onChange={(e) => {setCarga({...carga, tipoCarga:e.target.value})}}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  required
+                  fullWidth
+                  name="peso"
+                  label="Peso"
+                  type='number'
+                  value={carga.peso}
+                  id="peso"
+                  autoComplete="altura"
+                  onChange={(e) => {setCarga({...carga, peso:e.target.value})}}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  required
+                  fullWidth
+                  name="altura"
+                  label="Altura"
+                  type='number'
+                  value={carga.altura}
+                  id="altura"
+                  autoComplete="altura"
+                  onChange={(e) => {setCarga({...carga, altura:e.target.value})}}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  required
+                  fullWidth
+                  name="lagura"
+                  label="Largura"
+                  type='number'
+                  value={carga.largura}
+                  id="largura"
+                  autoComplete="largura"
+                  onChange={(e) => {setCarga({...carga, largura:e.target.value})}}
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   required
                   fullWidth
-                  name="placa"
-                  label="Placa"
-                  value={caminhao.placa}
-                  id="placa"
-                  autoComplete="placa"
-                  onChange={(e) => {setCaminhao({...caminhao, placa:e.target.value})}}
+                  name="origem"
+                  label="Origem"
+                  value={carga.origem}
+                  id="origem"
+                  autoComplete="origem"
+                  onChange={(e) => {setCarga({...carga, origem:e.target.value})}}
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   required
                   fullWidth
-                  name="fabricacao"
-                  label="Ano Fabricação"
-                  value={caminhao.fabricacao}
-                  id="fabricacao"
-                  autoComplete="fabricacao"
-                  onChange={(e) => {setCaminhao({...caminhao, fabricacao:e.target.value})}}
+                  name="destino"
+                  label="Destino"
+                  value={carga.destino}
+                  id="destino"
+                  autoComplete="destino"
+                  onChange={(e) => {setCarga({...carga, destino:e.target.value})}}
                 />
               </Grid>
             </Grid>
@@ -117,4 +203,4 @@ const CadastroCaminhao = () => {
   );
 }
 
-export default CadastroCaminhao
+export default CadastroCarga
