@@ -16,7 +16,7 @@ import Select from '@mui/material/Select';
 const CadastroCarga = () => {
   let [carga, setCarga] = React.useState({
     nomeCarga: '',
-    nomeCliente:'',
+    usuarioId:'',
     tipoCarga:'',
     peso:null,
     altura:null,
@@ -54,13 +54,16 @@ const CadastroCarga = () => {
         return false;
       }
 
-      setClientes(res.map(e => e.cnpj))
+      setClientes(res.map(e =>{
+        return {cnpj: e.cnpj, id: e._id}
+      }))
   
-
+      
     } catch (err) {
       alert(err.message);
     }
   }
+
 
   useEffect(() =>{
     allClientes()
@@ -99,16 +102,16 @@ const CadastroCarga = () => {
                 <Select
                   labelId="demo-multiple-name-label"
                   id="demo-multiple-name"
-                  value={carga.nomeCliente}
-                  onChange={(e) => {setCarga({...carga, nomeCliente:e.target.value})}}
+                  value={carga.usuarioId}
+                  onChange={(e) => {setCarga({...carga, usuarioId:e.target.value})}}
                   input={<OutlinedInput label="Name" />}
                 >
                   {clientes.map((cliente) => (
                     <MenuItem
-                      key={cliente}
-                      value={cliente}
+                      key={cliente.id}
+                      value={cliente.id}
                     >
-                      {cliente}
+                      {cliente.cnpj}
                     </MenuItem>
                   ))}
                 </Select>

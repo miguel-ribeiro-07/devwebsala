@@ -28,12 +28,13 @@ export default function Login() {
         alert(res.message);
         return false;
       }
-      const usuario = res.usuario
-      localStorage.setItem('sessionId', usuario[0]._id)
-      localStorage.setItem('userType', usuario[0].tipoUser)
-      if (userLogin.email == usuario[0].email && userLogin.senha == usuario[0].senha) navigate(`/inicio/`)
+      const usuario = res[0]
+      localStorage.setItem('sessionId', usuario._id)
+      localStorage.setItem('userType', usuario.tipoUser)
+      if (userLogin.email == usuario.email && userLogin.senha == usuario.senha) navigate(`/inicio/`)
+
     } catch (err) {
-      alert('Login incorreto!');
+      console.log(err.message);
     }
   }
 
