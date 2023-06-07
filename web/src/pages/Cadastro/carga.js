@@ -98,10 +98,10 @@ const CadastroCarga = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-              <InputLabel id="demo-multiple-name-label">CNPJ pertecente</InputLabel>
+              <InputLabel id="docCliente">CNPJ pertecente</InputLabel>
                 <Select
-                  labelId="demo-multiple-name-label"
-                  id="demo-multiple-name"
+                  labelId="docCliente"
+                  id="docCliente"
                   value={carga.usuarioId}
                   onChange={(e) => {setCarga({...carga, usuarioId:e.target.value})}}
                   input={<OutlinedInput label="Name" />}
@@ -117,16 +117,22 @@ const CadastroCarga = () => {
                 </Select>
               </Grid>
               <Grid item xs={6}>
-                <TextField
+              <TextField
                   required
                   fullWidth
-                  id="tipo"
-                  label="Tipo"
+                  select
+                  name="tipo-carga"
+                  label="Tipo Carga"
+                  type="tipo-carga"
+                  id="tipo-carga"
                   value={carga.tipoCarga}
-                  name="tipo"
-                  autoComplete="tipo"
                   onChange={(e) => {setCarga({...carga, tipoCarga:e.target.value})}}
-                />
+                >
+                <MenuItem key={'Sem riscos'} value={'Carga sem riscos'}>Carga sem riscos</MenuItem>
+                <MenuItem key={'Frágil'} value={'Carga Frágil'}>Carga Frágil</MenuItem>
+                <MenuItem key={'Perigosa'} value={'Carga Perigosa'}>Carga Perigosa</MenuItem>
+                <MenuItem key={'Viva'} value={'Carga Viva'}>Carga Viva</MenuItem>
+                </TextField>
               </Grid>
               <Grid item xs={4}>
                 <TextField
