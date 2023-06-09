@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,25 +7,26 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logo from '../images/Logo.png'
 import { Link, useLocation } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import MapIcon from '@mui/icons-material/Map';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ListItemText from '@mui/material/ListItemText';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import RoundaboutRightIcon from '@mui/icons-material/RoundaboutRight';
-import api from '../services/api';
 import {useNavigate} from 'react-router-dom'
 
 export default function Header() {
   const location = useLocation()
   const navigate = useNavigate()
   const [state, setState] = React.useState(false);
-  const sessionId = localStorage.getItem('sessionId')
   const userType = localStorage.getItem('userType')
   
   const toggleDrawer = (open) => (event) => {
@@ -84,10 +84,20 @@ export default function Header() {
         </ListItemButton>
       </ListItem>
       </Link>
+      <Link to="/cadastro-entrega" style={{textDecoration:"none", color:'#000000'}}>
+      <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
+        <ListItemButton>
+          <ListItemIcon>
+            <AddTaskIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Cadastrar entrega" />
+        </ListItemButton>
+      </ListItem>
+      </Link>
       <ListItem sx={{display: userType === 'Motorista' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
-            <RoundaboutRightIcon/>
+            <AssignmentIcon/>
           </ListItemIcon>
             <ListItemText primary="Informações da carga"/>
         </ListItemButton>
@@ -95,16 +105,16 @@ export default function Header() {
       <ListItem sx={{display: userType === 'Motorista' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
-            <RoundaboutRightIcon/>
+            <MapIcon/>
           </ListItemIcon>
             <ListItemText primary="Atualizar local atual da carga"/>
         </ListItemButton>
       </ListItem>
-      <Link to="/carga" style={{textDecoration:"none", color:'#000000'}}>
+      <Link to="/andamento-entrega" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Cliente' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
-            <RoundaboutRightIcon/>
+            <TaskAltIcon/>
           </ListItemIcon>
             <ListItemText primary="Andamento entrega"/>
         </ListItemButton>
@@ -128,7 +138,7 @@ export default function Header() {
           >
             <MenuIcon />
           </IconButton>
-          <img onClick={() => navigate('/inicio')} src={logo} width='120px' height='60px'/>
+          <img onClick={() => navigate('/inicio')} src={logo} width='120px' height='60px' alt='logo'/>
           <Box flexGrow={1} />
           <IconButton
             size="large"

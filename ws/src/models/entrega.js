@@ -7,10 +7,10 @@ const entrega = new Schema({
         ref:'Carga',
         require: [true, 'O ID de carga é obrigatório']
     },
-    usuarioId:{
+    motoristaId:{
         type:mongoose.Types.ObjectId,
         ref:'Usuario',
-        require: [true, 'O ID de usuário é obrigatório']
+        require: [true, 'O ID do motorista é obrigatório']
     },
     caminhaoId:{
         type:mongoose.Types.ObjectId,
@@ -26,7 +26,7 @@ const entrega = new Schema({
         type:String,
         require: [true, 'O local atual é obrigatório']
     },
-    status:{
+    statusEntrega:{
         type:String,
         enum:['Cadastrado', 'Em transporte', 'Entregue'],// Status de excluído "E" para a não remoção do db
         require:true,

@@ -42,7 +42,7 @@ const CadastroCarga = () => {
     }
   }
 
-  async function allClientes(){
+  async function filtrarCliente(){
     try {
       const response = await api.post('/usuario/filter', {
         tipoUser:'Cliente'
@@ -66,7 +66,7 @@ const CadastroCarga = () => {
 
 
   useEffect(() =>{
-    allClientes()
+    filtrarCliente()
   },[])
 
 
