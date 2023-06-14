@@ -100,12 +100,15 @@ export default function UpdateEntrega() {
   }, [selectId])
 
   useEffect(() => {
-    setLocais([
+    let filterLocals = [
         carga.origem, 
         rota.ponto1, 
         rota.ponto2,
         carga.destino
-    ])
+    ].filter(e => e !== '')
+
+    setLocais(filterLocals)
+
   }, [carga, rota])
 
   console.log(locais, att)
@@ -114,16 +117,16 @@ export default function UpdateEntrega() {
     <Typography sx={{marginLeft:1, marginTop:5, marginBottom:2}} variant="h4">
         Atualize os dados da entrega
       </Typography>
-      <InputLabel sx={{marginLeft:9}} id="cargaLabel">Entregas em seu usuário</InputLabel>
+      <InputLabel sx={{marginLeft:9}} id="entregas">Entregas em seu usuário</InputLabel>
         <Select
           sx={{marginLeft:5}}
-          labelId="carga"
-          id="carga"
+          labelId="entrega"
+          id="entrega"
           value={selectId}
           onChange={(e) => {
             setSelectId(e.target.value)
           }}
-          input={<OutlinedInput label="carga" />}
+          input={<OutlinedInput label="entrega" />}
         >
           {entregas.map((data) => (
             <MenuItem
@@ -134,16 +137,16 @@ export default function UpdateEntrega() {
             </MenuItem>
           ))}
         </Select>
-        <InputLabel sx={{marginLeft:9}} id="cargaLabel">Selecione o localAtual</InputLabel>
+        <InputLabel sx={{marginLeft:9}} id="local">Selecione o localAtual</InputLabel>
         <Select
           sx={{marginLeft:5}}
-          labelId="carga"
-          id="carga"
+          labelId="local"
+          id="local"
           value={att.localAtual}
           onChange={(e) => {
             setAtt({...att,  localAtual: e.target.value})
           }}
-          input={<OutlinedInput label="carga" />}
+          input={<OutlinedInput label="local" />}
         >
           {locais.map((data) => (
             <MenuItem
@@ -153,6 +156,20 @@ export default function UpdateEntrega() {
               {data}
             </MenuItem>
           ))}
+        </Select>
+        <InputLabel sx={{marginLeft:9}} id="local">Selecione o localAtual</InputLabel>
+        <Select
+          sx={{marginLeft:5}}
+          labelId="carga"
+          id="local"
+          value={att.statusEntrega}
+          onChange={(e) => {
+            setAtt({...att,  statusEntrega: e.target.value})
+          }}
+          input={<OutlinedInput label="local" />}
+        >
+          <MenuItem value='Em transporte'>Em transporte</MenuItem>
+          <MenuItem value='Entregue' >Entregue</MenuItem>
         </Select>
     </div>
   );

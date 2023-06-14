@@ -99,16 +99,16 @@ export default function InfoEntrega() {
     <Typography sx={{marginLeft:4, marginTop:5, marginBottom:2}} variant="h4">
         Dados da entrega
       </Typography>
-      <InputLabel sx={{marginLeft:9}} id="cargaLabel">Entregas em seu usuário</InputLabel>
+      <InputLabel sx={{marginLeft:9}} id="entrega">Entregas em seu usuário</InputLabel>
         <Select
           sx={{marginLeft:5}}
-          labelId="carga"
-          id="carga"
+          labelId="entrega"
+          id="entrega"
           value={selectId}
           onChange={(e) => {
             setSelectId(e.target.value)
           }}
-          input={<OutlinedInput label="carga" />}
+          input={<OutlinedInput label="entrega" />}
         >
           {entregas.map((data) => (
             <MenuItem
