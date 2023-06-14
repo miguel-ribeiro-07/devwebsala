@@ -104,6 +104,7 @@ export default function Header() {
         </ListItemButton>
       </ListItem>
       </Link>
+      <Link to="/update-entrega" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Motorista' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
@@ -112,6 +113,7 @@ export default function Header() {
             <ListItemText primary="Atualizar status da carga"/>
         </ListItemButton>
       </ListItem>
+      </Link>
       <Link to="/andamento-entrega" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Cliente' ? 'block' : 'none' }}>
         <ListItemButton>

@@ -14,6 +14,7 @@ import CadastroCarga from "./pages/Cadastro/carga";
 import CadastroRota from "./pages/Cadastro/rota";
 import CadastroEntrega from "./pages/Cadastro/entrega";
 import InfoEntrega from "./pages/Motorista/infos";
+import UpdateEntrega from "./pages/Motorista/update";
 
 
 function Rotas() {
@@ -30,6 +31,7 @@ function Rotas() {
               <Route path="/cadastro-rota" element={<CadastroRota/>}/>
               <Route path="/cadastro-entrega" element={<CadastroEntrega/>}/>
               <Route path="/info-entrega" element={<InfoEntrega/>}/>
+              <Route path="/update-entrega" element={<UpdateEntrega/>}/>
             </Routes>
         </Router>
     </Box>

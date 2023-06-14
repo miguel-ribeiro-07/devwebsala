@@ -13,13 +13,18 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-export default function InfoEntrega() {
+export default function UpdateEntrega() {
 
   const idSession = localStorage.getItem('sessionId')
+  let [att, setAtt] = React.useState({
+    localAtual:'',
+    statusEntrega:''
+  })
   let [entregas, setEntregas] = React.useState([])
   let [carga, setCarga] = React.useState({})
   let [rota, setRota] = React.useState({})
   let [selectId, setSelectId] = React.useState('')
+  let [locais, setLocais] = React.useState([])
   const navigate = useNavigate()
 
 
@@ -90,14 +95,24 @@ export default function InfoEntrega() {
     filtrarEntrega()
   }, [])
 
-  useEffect(() =>
+  useEffect(() => {
     filtId()
-  ,[selectId])
+  }, [selectId])
 
+  useEffect(() => {
+    setLocais([
+        carga.origem, 
+        rota.ponto1, 
+        rota.ponto2,
+        carga.destino
+    ])
+  }, [carga, rota])
+
+  console.log(locais, att)
   return (
     <div>
-    <Typography sx={{marginLeft:4, marginTop:5, marginBottom:2}} variant="h4">
-        Dados da entrega
+    <Typography sx={{marginLeft:1, marginTop:5, marginBottom:2}} variant="h4">
+        Atualize os dados da entrega
       </Typography>
       <InputLabel sx={{marginLeft:9}} id="cargaLabel">Entregas em seu usuário</InputLabel>
         <Select
@@ -119,49 +134,26 @@ export default function InfoEntrega() {
             </MenuItem>
           ))}
         </Select>
-      <List
-        sx={{
-          width: '100%',
-          maxWidth: 360,
-          bgcolor: 'background.paper',
-        }}
-      >
-      <ListItem>
-        <ListItemAvatar>
-        </ListItemAvatar>
-        <ListItemText primary="Tipo de carga" secondary={carga.tipoCarga}/>
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem>
-        <ListItemAvatar>
-        </ListItemAvatar>
-        <ListItemText primary="Local de saída" secondary={carga.origem} />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem>
-        <ListItemAvatar>
-        </ListItemAvatar>
-        <ListItemText primary="Local de destino" secondary={carga.destino} />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem>
-        <ListItemAvatar>
-        </ListItemAvatar>
-        <ListItemText primary="Rota a ser feita" secondary={rota.nomeRota} />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem>
-        <ListItemAvatar>
-        </ListItemAvatar>
-        <ListItemText primary="Ponto de parada 1" secondary={rota.ponto1} />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem>
-        <ListItemAvatar>
-        </ListItemAvatar>
-        <ListItemText primary="Ponto de parada 2" secondary={rota.ponto2 == '' ? 'Há apenas 1 ponto de parada': rota.ponto2} />
-      </ListItem>
-    </List>
+        <InputLabel sx={{marginLeft:9}} id="cargaLabel">Selecione o localAtual</InputLabel>
+        <Select
+          sx={{marginLeft:5}}
+          labelId="carga"
+          id="carga"
+          value={att.localAtual}
+          onChange={(e) => {
+            setAtt({...att,  localAtual: e.target.value})
+          }}
+          input={<OutlinedInput label="carga" />}
+        >
+          {locais.map((data) => (
+            <MenuItem
+              key={data}
+              value={data}
+            >
+              {data}
+            </MenuItem>
+          ))}
+        </Select>
     </div>
   );
 }
