@@ -19,8 +19,7 @@ const CadastroEntrega = () => {
     motoristaId:'',
     caminhaoId:'',
     rotaId:'',
-    localAtual:'',
-    statusEntrega:''
+    localAtual:''
   })
   let [carga, setCarga] = React.useState([])
   let [motorista, setMotorista] = React.useState([])
@@ -59,6 +58,43 @@ const CadastroEntrega = () => {
       alert(err.message);
     }
   }
+  
+  async function allCaminhao(){
+    try {
+      const response = await api.get('/caminhao');
+      const res = response.data;
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
+
+      setCaminhao(res.caminhoes)
+  
+      
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+  
+  async function allRotas(){
+    try {
+      const response = await api.get('/rota');
+      const res = response.data;
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
+
+      setRota(res.rota)
+      
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+
 
   async function filtrarMotorista(){
     try {
@@ -82,31 +118,27 @@ const CadastroEntrega = () => {
     }
   }
 
-  async function allCaminhao(){
-    try {
-      const response = await api.get('/caminhao');
-      const res = response.data;
-  
-      if (res.error) {
-        alert(res.message);
-        return false;
-      }
+  const filtrarCargaId = (point) =>{
+    let found = carga.find((e) => 
+      e._id == entrega.cargaId
 
-      setCaminhao(res.caminhoes)
-  
-      
-    } catch (err) {
-      alert(err.message);
-    }
+    )
+    if (found == undefined || point == undefined) return ''
+    else if (point == 'origem') return found.origem
+    else if (point == 'destino') return found.destino
   }
 
-  console.log(entrega, carga)
 
   useEffect(() =>{
     allCargas()
     allCaminhao()
+    allRotas()
     filtrarMotorista()
   },[])
+
+  useEffect(() =>{
+    setEntrega({...entrega, localAtual:filtrarCargaId('origem'), })
+  },[entrega.cargaId])
 
 
   return (
@@ -133,7 +165,7 @@ const CadastroEntrega = () => {
                   onChange={(e) => {
                     setEntrega({...entrega, cargaId:e.target.value})
                   }}
-                  input={<OutlinedInput label="Name" />}
+                  input={<OutlinedInput label="carga" />}
                 >
                     {carga.map((carga) => (
                         <MenuItem
@@ -152,7 +184,7 @@ const CadastroEntrega = () => {
                   id="motorista"
                   value={entrega.motoristaId}
                   onChange={(e) => {setEntrega({...entrega, motoristaId:e.target.value})}}
-                  input={<OutlinedInput label="Name" />}
+                  input={<OutlinedInput label="motorista" />}
                 >
                     {motorista.map((motorista) => (
                         <MenuItem
@@ -171,7 +203,7 @@ const CadastroEntrega = () => {
                   id="caminhao"
                   value={entrega.caminhaoId}
                   onChange={(e) => {setEntrega({...entrega, caminhaoId:e.target.value})}}
-                  input={<OutlinedInput label="Name" />}
+                  input={<OutlinedInput label="caminhao" />}
                 >
                     {caminhao.map((caminhao) => (
                         <MenuItem
@@ -183,29 +215,24 @@ const CadastroEntrega = () => {
                     ))}
                 </Select>
               </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name="origem"
-                  label="Origem"
-                  value={entrega.origem}
-                  id="origem"
-                  autoComplete="origem"
-                  onChange={(e) => {setEntrega({...entrega, origem:e.target.value})}}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name="destino"
-                  label="Destino"
-                  value={entrega.destino}
-                  id="destino"
-                  autoComplete="destino"
-                  onChange={(e) => {setEntrega({...entrega, destino:e.target.value})}}
-                />
+              <Grid item xs={12}>
+                <InputLabel id="rotaLabel">Rota da entrega</InputLabel>
+                <Select
+                  labelId="rota"
+                  id="rota"
+                  value={entrega.rotaId}
+                  onChange={(e) => {setEntrega({...entrega, rotaId:e.target.value})}}
+                  input={<OutlinedInput label="rota" />}
+                >
+                    {rota.map((rota) => (
+                        <MenuItem
+                        key={rota._id}
+                        value={rota._id}
+                        >
+                        {rota.nomeRota}
+                        </MenuItem>
+                    ))}
+                </Select>
               </Grid>
             </Grid>
             <Button

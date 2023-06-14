@@ -13,25 +13,60 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import api from '../../services/api';
 import {useNavigate} from 'react-router-dom'
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
-export default function InfoCarga() {
-
-  //FINALIZAR ANTES A PARTE DE ENTREGA PARA QUE TENHAM MOTORISTAS VINCULADOS A ENTREGA
+export default function InfoEntrega() {
 
   const idSession = localStorage.getItem('sessionId')
-  let [dadosPerfil, setDadosPerfil] = React.useState({})
+  let [entregas, setEntregas] = React.useState([])
+  let [carga, setCarga] = React.useState({})
+  let [rota, setRota] = React.useState({})
+  let [selectId, setSelectId] = React.useState('')
   const navigate = useNavigate()
 
-  useEffect(() =>{
-    if (idSession === null) {navigate('/')}
-    else getUser()
-  }, [])
 
-  async function getUser(){
+  async function filtrarEntrega(){
     try {
-      const response = await api.get(`/usuario/${idSession}`);
+      const response = await api.post(`/entrega/filter`, {
+        motoristaId:idSession
+      });
       const res = response.data;
-      setDadosPerfil(res.usuario)
+      setEntregas(res.entrega)
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
+
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function filtrarCarga(id){
+    try {
+      const response = await api.get(`/carga/${id}`);
+      const res = response.data;
+      setCarga(res.carga)
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
+
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function filtrarRota(id){
+    try {
+      const response = await api.get(`/rota/${id}`);
+      const res = response.data;
+      setRota(res.rota)
   
       if (res.error) {
         alert(res.message);
@@ -44,10 +79,30 @@ export default function InfoCarga() {
   }
 
 
+  const filtId = () =>{
+    let result = entregas.find(e => e._id === selectId)
+
+    if (result != undefined) {
+      filtrarCarga(result.cargaId)
+      filtrarRota(result.rotaId)
+    }
+  }
+
+
+  useEffect(() =>{
+    if (idSession === null) {navigate('/')}
+    else 
+    filtrarEntrega()
+  }, [])
+
+  useEffect(() =>
+    filtId()
+  ,[selectId])
+
   return (
     <div>
-    <Typography variant="h2">
-        Bem vindo!
+    <Typography sx={{marginLeft:4, marginTop:5, marginBottom:2}} variant="h4">
+        Dados da entrega
       </Typography>
     <List
       sx={{
@@ -56,49 +111,60 @@ export default function InfoCarga() {
         bgcolor: 'background.paper',
       }}
     >
+      <InputLabel sx={{marginLeft:9}} id="cargaLabel">Selecione uma entrega</InputLabel>
+        <Select
+          sx={{marginLeft:5}}
+          labelId="carga"
+          id="carga"
+          value={selectId}
+          onChange={(e) => {
+            setSelectId(e.target.value)
+          }}
+          input={<OutlinedInput label="carga" />}
+        >
+          {entregas.map((data) => (
+            <MenuItem
+              key={data._id}
+              value={data._id}
+            >
+              {data._id}
+            </MenuItem>
+          ))}
+        </Select>
       <ListItem>
         <ListItemAvatar>
-          <Avatar>
-            <AccountCircleIcon />
-          </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Tipo Perfil" secondary={dadosPerfil.tipoUser}/>
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem sx={{display: dadosPerfil.tipoUser === 'Motorista' || dadosPerfil.tipoUser === 'Administrador' ? 'flex' : 'none' }}>
-        <ListItemAvatar>
-          <Avatar>
-            <FingerprintIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="CPF" secondary={dadosPerfil.cpf} />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem sx={{display: dadosPerfil.tipoUser === 'Cliente' ? 'flex' : 'none' }}>
-        <ListItemAvatar>
-          <Avatar>
-            <FingerprintIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="CNPJ" secondary={dadosPerfil.cnpj} />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <PersonIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Nome" secondary={dadosPerfil.nome} />
+        <ListItemText primary="Tipo de carga" secondary={carga.tipoCarga}/>
       </ListItem>
       <Divider variant="inset" component="li" />
       <ListItem>
         <ListItemAvatar>
-          <Avatar>
-            <EmailIcon />
-          </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="E-mail" secondary={dadosPerfil.email} />
+        <ListItemText primary="Local de saída" secondary={carga.origem} />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem>
+        <ListItemAvatar>
+        </ListItemAvatar>
+        <ListItemText primary="Local de destino" secondary={carga.destino} />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem>
+        <ListItemAvatar>
+        </ListItemAvatar>
+        <ListItemText primary="Rota a ser feita" secondary={rota.nomeRota} />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem>
+        <ListItemAvatar>
+        </ListItemAvatar>
+        <ListItemText primary="Ponto de parada 1" secondary={rota.ponto1} />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem>
+        <ListItemAvatar>
+        </ListItemAvatar>
+        <ListItemText primary="Ponto de parada 2" secondary={rota.ponto2 == '' ? 'Há apenas 1 ponto de parada': rota.ponto2} />
       </ListItem>
     </List>
     </div>

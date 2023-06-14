@@ -94,20 +94,22 @@ export default function Header() {
         </ListItemButton>
       </ListItem>
       </Link>
+      <Link to="/info-entrega" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Motorista' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
             <AssignmentIcon/>
           </ListItemIcon>
-            <ListItemText primary="Informações da carga"/>
+            <ListItemText primary="Informações da entrega"/>
         </ListItemButton>
       </ListItem>
+      </Link>
       <ListItem sx={{display: userType === 'Motorista' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
             <MapIcon/>
           </ListItemIcon>
-            <ListItemText primary="Atualizar local atual da carga"/>
+            <ListItemText primary="Atualizar status da carga"/>
         </ListItemButton>
       </ListItem>
       <Link to="/andamento-entrega" style={{textDecoration:"none", color:'#000000'}}>
@@ -116,7 +118,7 @@ export default function Header() {
           <ListItemIcon>
             <TaskAltIcon/>
           </ListItemIcon>
-            <ListItemText primary="Andamento entrega"/>
+            <ListItemText primary="Andamento da entrega"/>
         </ListItemButton>
       </ListItem>
       </Link>
