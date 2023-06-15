@@ -16,11 +16,11 @@ import Select from '@mui/material/Select';
 export default function InfoEntrega() {
 
   const idSession = localStorage.getItem('sessionId')
+  const navigate = useNavigate()
   let [entregas, setEntregas] = React.useState([])
   let [carga, setCarga] = React.useState({})
   let [rota, setRota] = React.useState({})
   let [selectId, setSelectId] = React.useState('')
-  const navigate = useNavigate()
 
 
   async function filtrarEntrega(){
@@ -93,6 +93,7 @@ export default function InfoEntrega() {
   useEffect(() =>
     filtId()
   ,[selectId])
+
 
   return (
     <div>

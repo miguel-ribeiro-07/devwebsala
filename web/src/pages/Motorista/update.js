@@ -76,7 +76,6 @@ export default function UpdateEntrega() {
     }
   }
 
-  console.log(entregas)
   async function update(){
     try{
       const response = await api.put(`/entrega/${selectId}`, {
@@ -135,12 +134,12 @@ export default function UpdateEntrega() {
     <div>
       <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: 'block',
             flexDirection: 'column',
           }}
         >
-        <Typography sx={{marginLeft:1, marginTop:5, marginBottom:2}} variant="h4">
+        <Typography sx={{marginLeft:4, marginTop:5, marginBottom:2}} variant="h4">
           Atualize os dados da entrega
         </Typography>
         <InputLabel sx={{marginLeft:9}} id="entregas">Entregas em seu usuário</InputLabel>
@@ -194,8 +193,8 @@ export default function UpdateEntrega() {
             }}
             input={<OutlinedInput label="status" />}
           >
-            <MenuItem value='Em transporte'>Em transporte</MenuItem>
-            <MenuItem value='Entregue' >Entregue</MenuItem>
+            <MenuItem key='Em transporte' value='Em transporte'>Em transporte</MenuItem>
+            <MenuItem key='Entregue' value='Entregue' >Entregue</MenuItem>
           </Select>
 
           <Grid item xs={8} sx={{marginLeft:5, marginTop:3}}>

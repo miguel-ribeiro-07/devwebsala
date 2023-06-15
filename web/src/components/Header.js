@@ -114,13 +114,13 @@ export default function Header() {
         </ListItemButton>
       </ListItem>
       </Link>
-      <Link to="/andamento-entrega" style={{textDecoration:"none", color:'#000000'}}>
+      <Link to="/status-entrega" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Cliente' ? 'block' : 'none' }}>
         <ListItemButton>
           <ListItemIcon>
             <TaskAltIcon/>
           </ListItemIcon>
-            <ListItemText primary="Andamento da entrega"/>
+            <ListItemText primary="Status da entrega"/>
         </ListItemButton>
       </ListItem>
       </Link>
