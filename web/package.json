@@ -1,7 +1,7 @@
 {
   "name": "devweb",
   "version": "0.1.0",
-  "homepage": "https://miguel-ribeiro-07.github.io/",
+  "homepage": "https://miguel-ribeiro-07.github.io/devwebsala",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
