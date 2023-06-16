@@ -64,16 +64,6 @@ export default function Header() {
         </ListItemButton>
       </ListItem>
       </Link>
-      <Link to="/cadastro-carga" style={{textDecoration:"none", color:'#000000'}}>
-      <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
-        <ListItemButton>
-          <ListItemIcon>
-            <InventoryIcon/>
-          </ListItemIcon>
-            <ListItemText primary="Cadastrar carga" />
-        </ListItemButton>
-      </ListItem>
-      </Link>
       <Link to="/cadastro-rota" style={{textDecoration:"none", color:'#000000'}}>
       <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
         <ListItemButton>
@@ -81,6 +71,16 @@ export default function Header() {
             <RoundaboutRightIcon/>
           </ListItemIcon>
             <ListItemText primary="Cadastrar rota" />
+        </ListItemButton>
+      </ListItem>
+      </Link>
+      <Link to="/cadastro-carga" style={{textDecoration:"none", color:'#000000'}}>
+      <ListItem sx={{display: userType === 'Administrador' ? 'block' : 'none' }}>
+        <ListItemButton>
+          <ListItemIcon>
+            <InventoryIcon/>
+          </ListItemIcon>
+            <ListItemText primary="Cadastrar carga" />
         </ListItemButton>
       </ListItem>
       </Link>

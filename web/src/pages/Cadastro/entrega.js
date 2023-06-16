@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -25,6 +24,8 @@ const CadastroEntrega = () => {
   let [motorista, setMotorista] = React.useState([])
   let [caminhao, setCaminhao] = React.useState([])
   let [rota, setRota] = React.useState([])
+  let [entregas, setEntregas] = React.useState([])
+  
 
   async function cadastrar(){
     try {
@@ -94,6 +95,23 @@ const CadastroEntrega = () => {
     }
   }
 
+  async function allEntregas(){
+    try {
+      const response = await api.get('/entrega');
+      const res = response.data;
+  
+      if (res.error) {
+        alert(res.message);
+        return false;
+      }
+
+      setEntregas(res.entregas)
+      
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
 
 
   async function filtrarMotorista(){
@@ -133,6 +151,7 @@ const CadastroEntrega = () => {
     allCargas()
     allCaminhao()
     allRotas()
+    allEntregas()
     filtrarMotorista()
   },[])
 
@@ -140,6 +159,11 @@ const CadastroEntrega = () => {
     setEntrega({...entrega, localAtual:filtrarCargaId('origem'), })
   },[entrega.cargaId])
 
+  useEffect(() =>{
+    let filtCarga = carga.filter(e => !entregas.some(x => x.cargaId === e._id))
+
+    setCarga(filtCarga)
+  },[rota, motorista, caminhao])
 
   return (
       <Container component="main" maxWidth="xs">
@@ -157,10 +181,11 @@ const CadastroEntrega = () => {
           <Box component="form" sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <InputLabel id="cargaLabel">Carga da entrega</InputLabel>
+                <InputLabel id="cargaLabel">Carga da entrega {carga == '' ? '(Alerta: Todas as cargas já estão cadastradas em uma entrega ou não há cargas cadastradas)' : false}</InputLabel>
                 <Select
                   labelId="carga"
                   id="carga"
+                  error={carga == '' ? true : false}
                   value={entrega.cargaId}
                   onChange={(e) => {
                     setEntrega({...entrega, cargaId:e.target.value})
